@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -8,7 +9,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace GtMotive.Estimate.Microservice.InfrastructureTests.Infrastructure
 {
-    internal sealed class GenericInfrastructureTestServerFixture : IDisposable
+    [SuppressMessage("Maintainability", "CA1515", Justification = "Public to allow controller test classes to receive it via xUnit collection injection.")]
+    public sealed class GenericInfrastructureTestServerFixture : IDisposable
     {
         public GenericInfrastructureTestServerFixture()
         {

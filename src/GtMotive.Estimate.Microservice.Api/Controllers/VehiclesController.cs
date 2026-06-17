@@ -21,7 +21,7 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         /// <param name="request">The create vehicle request.</param>
         /// <returns>The created vehicle.</returns>
         [HttpPost(Name = "CreateVehicle")]
-        public async Task<IActionResult> Post([FromBody] CreateVehicleRequest request)
+        public async Task<IActionResult> CreateVehicle([FromBody] CreateVehicleRequest request)
         {
             var presenter = await mediator.Send(request);
             return presenter.ActionResult;
