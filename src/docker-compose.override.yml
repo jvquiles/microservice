@@ -1,9 +1,23 @@
 services:
+  mongo-gtmotive:
+    container_name: mongo-gtmotive
+    ports:
+      - "27017:27017"
+    volumes:
+      - gtmotive_mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME:-mongo}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD:-mongo}
+      - MONGO_INITDB_DATABASE= EstimateDb
+
   gtmotive.estimate.microservice.host:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - MongoDb__ConnectionString=${MONGODB_CONNECTIONSTRING:-mongodb://${MONGO_INITDB_ROOT_USERNAME:-mongo}:${MONGO_INITDB_ROOT_PASSWORD:-mongo}@mongo-gtmotive:27017/${MONGO_DB_NAME:-EstimateDb}?authSource=admin}
+      - MongoDb__MongoDbDatabaseName=${MONGO_DB_NAME:-EstimateDb}
+
     ports:
       - "8080"
       - "8081"
@@ -12,3 +26,7 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+volumes:
+  gtmotive_mongo_data:
+    name: gtmotive_mongo_data
