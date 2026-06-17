@@ -1,0 +1,11 @@
+services:
+  mongo-gtmotive:
+    image: mongo:6.0
+
+  gtmotive.estimate.microservice.host:
+    image: ${DOCKER_REGISTRY-}gtmotiveestimatemicroservicehost
+    build:
+      context: .
+      dockerfile: GtMotive.Estimate.Microservice.Host/Dockerfile
+    depends_on:
+      - mongo-gtmotive
