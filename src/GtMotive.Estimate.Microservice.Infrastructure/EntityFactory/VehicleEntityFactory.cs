@@ -10,7 +10,7 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.EntityFactory
     public sealed class VehicleEntityFactory : IVehicleFactory
     {
         /// <inheritdoc/>
-        public IVehicle NewVehicle(LicensePlate licensePlate, string brand, string model, int year, decimal dailyRate)
+        public IVehicle NewVehicle(LicensePlate licensePlate, string brand, string model, int year, decimal dailyRate, bool isAvailable = true)
         {
             return new VehicleEntity(
                 new VehicleId(Guid.CreateVersion7()),

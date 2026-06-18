@@ -1,4 +1,4 @@
-using GtMotive.Estimate.Microservice.Domain.Interfaces;
+﻿using GtMotive.Estimate.Microservice.Domain.Interfaces;
 
 namespace GtMotive.Estimate.Microservice.Domain
 {
@@ -36,5 +36,11 @@ namespace GtMotive.Estimate.Microservice.Domain
         /// Gets or sets the daily rental rate.
         /// </summary>
         public decimal DailyRate { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the vehicle is available for rent.
+        /// </summary>
+        /// <returns>The availability value.</returns>
+        public abstract bool IsAvailable();
     }
 }

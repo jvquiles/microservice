@@ -19,8 +19,12 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.GetAllVehicles
         {
             ArgumentNullException.ThrowIfNull(request);
 
+            var input = new GetAllVehiclesInput
+            {
+                AvailableForRent = request.AvailableForRent
+            };
             var useCase = new GetAllVehiclesUseCase(vehicleRepository, presenter);
-            await useCase.Execute(new GetAllVehiclesInput());
+            await useCase.Execute(input);
             return presenter;
         }
     }

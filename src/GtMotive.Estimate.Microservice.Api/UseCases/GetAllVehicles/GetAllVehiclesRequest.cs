@@ -8,5 +8,9 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.GetAllVehicles
     public sealed class GetAllVehiclesRequest
         : IRequest<IWebApiPresenter>
     {
+        /// <summary>
+        /// Gets or sets an optional filter by availability.
+        /// </summary>
+        public bool? AvailableForRent { get; set; }
     }
 }

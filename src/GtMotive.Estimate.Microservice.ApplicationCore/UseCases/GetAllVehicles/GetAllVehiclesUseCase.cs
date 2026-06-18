@@ -18,7 +18,7 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.GetAllVehicles
         {
             ArgumentNullException.ThrowIfNull(input);
 
-            var vehicles = await vehicleRepository.GetAll();
+            var vehicles = await vehicleRepository.GetAll(input.AvailableForRent);
 
             var items = vehicles
                 .Select(vehicle => new GetAllVehiclesItem

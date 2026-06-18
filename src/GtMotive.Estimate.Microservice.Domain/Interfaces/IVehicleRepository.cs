@@ -23,9 +23,10 @@ namespace GtMotive.Estimate.Microservice.Domain.Interfaces
         Task<IVehicle> GetBy(VehicleId vehicleId);
 
         /// <summary>
-        /// Gets all vehicles.
+        /// Gets all vehicles, optionally filtered by availability.
         /// </summary>
-        /// <returns>A collection of all vehicles.</returns>
-        Task<IEnumerable<IVehicle>> GetAll();
+        /// <param name="availableForRent">When set, filters by <see cref="IVehicle.IsAvailable"/>.</param>
+        /// <returns>A collection of matching vehicles.</returns>
+        Task<IEnumerable<IVehicle>> GetAll(bool? availableForRent = null);
     }
 }

@@ -1,4 +1,4 @@
-namespace GtMotive.Estimate.Microservice.Domain.Interfaces
+﻿namespace GtMotive.Estimate.Microservice.Domain.Interfaces
 {
     /// <summary>
     /// Vehicle aggregate root interface.
@@ -34,5 +34,11 @@ namespace GtMotive.Estimate.Microservice.Domain.Interfaces
         /// Gets the daily rental rate.
         /// </summary>
         decimal DailyRate { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the vehicle is available for rent.
+        /// </summary>
+        /// <returns>The availability value.</returns>
+        bool IsAvailable();
     }
 }

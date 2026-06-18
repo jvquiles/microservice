@@ -35,8 +35,18 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<IVehicle>> GetAll()
+        public async Task<IEnumerable<IVehicle>> GetAll(bool? availableForRent = null)
         {
+#pragma warning disable S125 // Sections of code should not be commented out
+            /*
+            var filter = availableForRent.HasValue
+                ? Builders<VehicleEntity>.Filter.Eq(v => v.IsAvailable, availableForRent.Value)
+                : Builders<VehicleEntity>.Filter.Empty;
+
+            var vehicles = await _vehicles.Find(filter).ToListAsync();
+                        */
+#pragma warning restore S125 // Sections of code should not be commented out
+
             var vehicles = await _vehicles.Find(_ => true).ToListAsync();
             return vehicles;
         }

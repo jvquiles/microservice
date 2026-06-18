@@ -1,10 +1,12 @@
-namespace GtMotive.Estimate.Microservice.Domain
+﻿namespace GtMotive.Estimate.Microservice.Domain
 {
     /// <summary>
     /// Concrete implementation of the Vehicle aggregate root.
     /// </summary>
     public sealed class VehicleEntity : Vehicle
     {
+        private readonly bool _isAvailable;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleEntity"/> class.
         /// </summary>
@@ -28,6 +30,13 @@ namespace GtMotive.Estimate.Microservice.Domain
             Model = model;
             Year = year;
             DailyRate = dailyRate;
+            _isAvailable = true;
+        }
+
+        /// <inheritdoc/>
+        public override bool IsAvailable()
+        {
+            return _isAvailable;
         }
     }
 }

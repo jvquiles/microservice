@@ -1,4 +1,4 @@
-using GtMotive.Estimate.Microservice.Domain;
+﻿using GtMotive.Estimate.Microservice.Domain;
 
 namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.GetAllVehicles
 {

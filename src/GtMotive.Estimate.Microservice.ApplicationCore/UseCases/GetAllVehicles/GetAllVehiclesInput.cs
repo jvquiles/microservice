@@ -6,5 +6,9 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.GetAllVehicles
     public sealed class GetAllVehiclesInput
         : IUseCaseInput
     {
+        /// <summary>
+        /// Gets or sets an optional filter by availability.
+        /// </summary>
+        public bool? AvailableForRent { get; set; }
     }
 }

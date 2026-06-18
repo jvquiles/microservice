@@ -41,13 +41,14 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         }
 
         /// <summary>
-        /// Gets all vehicles.
+        /// Gets all vehicles, optionally filtered by availability.
         /// </summary>
-        /// <returns>All vehicles.</returns>
+        /// <param name="availableForRent">Optional filter by availability.</param>
+        /// <returns>All matching vehicles.</returns>
         [HttpGet(Name = "GetAllVehicles")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] bool? availableForRent = null)
         {
-            var presenter = await mediator.Send(new GetAllVehiclesRequest());
+            var presenter = await mediator.Send(new GetAllVehiclesRequest { AvailableForRent = availableForRent });
             return presenter.ActionResult;
         }
     }
