@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Domain;
 using GtMotive.Estimate.Microservice.Domain.Interfaces;
 using GtMotive.Estimate.Microservice.Infrastructure.MongoDb.Settings;
@@ -31,6 +32,13 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
             var filter = Builders<VehicleEntity>.Filter.Eq(v => v.Id, vehicleId);
             var vehicle = await _vehicles.Find(filter).SingleOrDefaultAsync();
             return vehicle;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<IVehicle>> GetAll()
+        {
+            var vehicles = await _vehicles.Find(_ => true).ToListAsync();
+            return vehicles;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GtMotive.Estimate.Microservice.Domain.Interfaces
@@ -20,5 +21,11 @@ namespace GtMotive.Estimate.Microservice.Domain.Interfaces
         /// <param name="vehicleId">The vehicle identifier.</param>
         /// <returns>The vehicle.</returns>
         Task<IVehicle> GetBy(VehicleId vehicleId);
+
+        /// <summary>
+        /// Gets all vehicles.
+        /// </summary>
+        /// <returns>A collection of all vehicles.</returns>
+        Task<IEnumerable<IVehicle>> GetAll();
     }
 }
