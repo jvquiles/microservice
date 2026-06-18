@@ -1,44 +1,40 @@
-﻿namespace GtMotive.Estimate.Microservice.Domain.Interfaces
+﻿using GtMotive.Estimate.Microservice.Domain;
+
+namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.GetAllVehicles
 {
     /// <summary>
-    /// Vehicle aggregate root interface.
+    /// A single vehicle item in the Get All Vehicles output.
     /// </summary>
-    public interface IVehicle
+    public sealed class GetAllVehiclesItem
     {
         /// <summary>
         /// Gets the vehicle identifier.
         /// </summary>
-        VehicleId Id { get; }
+        public VehicleId VehicleId { get; init; }
 
         /// <summary>
         /// Gets the license plate.
         /// </summary>
-        LicensePlate LicensePlate { get; }
+        public LicensePlate LicensePlate { get; init; }
 
         /// <summary>
         /// Gets the brand.
         /// </summary>
-        string Brand { get; }
+        public string Brand { get; init; }
 
         /// <summary>
         /// Gets the model.
         /// </summary>
-        string Model { get; }
+        public string Model { get; init; }
 
         /// <summary>
         /// Gets the manufacturing year.
         /// </summary>
-        int Year { get; }
+        public int Year { get; init; }
 
         /// <summary>
         /// Gets the daily rental rate.
         /// </summary>
-        decimal DailyRate { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the vehicle is available for rent.
-        /// </summary>
-        /// <returns>The availability value.</returns>
-        bool IsAvailable();
+        public decimal DailyRate { get; init; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.UseCases.CreateVehicle;
+using GtMotive.Estimate.Microservice.Api.UseCases.GetAllVehicles;
 using GtMotive.Estimate.Microservice.Api.UseCases.GetVehicle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,18 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         public async Task<IActionResult> Get(Guid vehicleId)
         {
             var presenter = await mediator.Send(new GetVehicleRequest { VehicleId = vehicleId });
+            return presenter.ActionResult;
+        }
+
+        /// <summary>
+        /// Gets all vehicles, optionally filtered by availability.
+        /// </summary>
+        /// <param name="availableForRent">Optional filter by availability.</param>
+        /// <returns>All matching vehicles.</returns>
+        [HttpGet(Name = "GetAllVehicles")]
+        public async Task<IActionResult> GetAll([FromQuery] bool? availableForRent = null)
+        {
+            var presenter = await mediator.Send(new GetAllVehiclesRequest { AvailableForRent = availableForRent });
             return presenter.ActionResult;
         }
     }
