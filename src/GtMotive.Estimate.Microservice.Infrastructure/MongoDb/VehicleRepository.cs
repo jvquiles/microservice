@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Domain;
 using GtMotive.Estimate.Microservice.Domain.Interfaces;
@@ -37,18 +38,49 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
         /// <inheritdoc/>
         public async Task<IEnumerable<IVehicle>> GetAll(bool? availableForRent = null)
         {
-#pragma warning disable S125 // Sections of code should not be commented out
-            /*
-            var filter = availableForRent.HasValue
-                ? Builders<VehicleEntity>.Filter.Eq(v => v.IsAvailable, availableForRent.Value)
-                : Builders<VehicleEntity>.Filter.Empty;
+            var currentDate = DateTime.UtcNow;
+
+            FilterDefinition<VehicleEntity> filter;
+            if (availableForRent.HasValue)
+            {
+                var activeRentalFilter = Builders<VehicleEntity>.Filter.ElemMatch(
+                    v => v.RentalsList,
+                    Builders<RentalItem>.Filter.And(
+                        Builders<RentalItem>.Filter.Lte(r => r.StartDate, currentDate),
+                        Builders<RentalItem>.Filter.Gte(r => r.EndDate, currentDate)));
+
+                filter = availableForRent.Value
+                    ? Builders<VehicleEntity>.Filter.Not(activeRentalFilter)
+                    : activeRentalFilter;
+            }
+            else
+            {
+                filter = Builders<VehicleEntity>.Filter.Empty;
+            }
 
             var vehicles = await _vehicles.Find(filter).ToListAsync();
-                        */
-#pragma warning restore S125 // Sections of code should not be commented out
-
-            var vehicles = await _vehicles.Find(_ => true).ToListAsync();
             return vehicles;
+        }
+
+        /// <inheritdoc/>
+        public async Task Update(IVehicle vehicle)
+        {
+            var entity = (VehicleEntity)vehicle;
+            await _vehicles.ReplaceOneAsync(v => v.Id == entity.Id, entity);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> UserHasActiveRental(string email, DateTime startDate, DateTime endDate)
+        {
+            var filter = Builders<VehicleEntity>.Filter.ElemMatch(
+                v => v.RentalsList,
+                Builders<RentalItem>.Filter.And(
+                    Builders<RentalItem>.Filter.Eq(r => r.UserEmail, email),
+                    Builders<RentalItem>.Filter.Lt(r => r.StartDate, endDate),
+                    Builders<RentalItem>.Filter.Gt(r => r.EndDate, startDate)));
+
+            var exists = await _vehicles.Find(filter).AnyAsync();
+            return exists;
         }
     }
 }
