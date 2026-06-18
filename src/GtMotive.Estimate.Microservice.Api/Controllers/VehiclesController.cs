@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using GtMotive.Estimate.Microservice.Api.UseCases.CreateRental;
 using GtMotive.Estimate.Microservice.Api.UseCases.CreateVehicle;
 using GtMotive.Estimate.Microservice.Api.UseCases.GetAllVehicles;
 using GtMotive.Estimate.Microservice.Api.UseCases.GetVehicle;
@@ -49,6 +50,23 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         public async Task<IActionResult> GetAll([FromQuery] bool? availableForRent = null)
         {
             var presenter = await mediator.Send(new GetAllVehiclesRequest { AvailableForRent = availableForRent });
+            return presenter.ActionResult;
+        }
+
+        /// <summary>
+        /// Rents a vehicle for a user.
+        /// </summary>
+        /// <param name="vehicleId">The vehicle identifier.</param>
+        /// <param name="request">The rental details.</param>
+        /// <returns>The created rental.</returns>
+        [HttpPost("{vehicleId:Guid}/rentals", Name = "RentVehicle")]
+        public async Task<IActionResult> RentVehicle(
+            [FromRoute] Guid vehicleId,
+            [FromBody] CreateRentalRequest request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+            request.VehicleId = vehicleId;
+            var presenter = await mediator.Send(request);
             return presenter.ActionResult;
         }
     }

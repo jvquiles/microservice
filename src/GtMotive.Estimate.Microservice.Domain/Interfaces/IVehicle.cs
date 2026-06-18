@@ -1,4 +1,8 @@
-﻿namespace GtMotive.Estimate.Microservice.Domain.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace GtMotive.Estimate.Microservice.Domain.Interfaces
 {
     /// <summary>
     /// Vehicle aggregate root interface.
@@ -36,9 +40,18 @@
         decimal DailyRate { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the vehicle is available for rent.
+        /// Gets the rental records for this vehicle.
         /// </summary>
-        /// <returns>The availability value.</returns>
-        bool IsAvailable();
+        IReadOnlyCollection<RentalItem> Rentals { get; }
+
+        /// <summary>
+        /// Rents this vehicle to a user for the specified period.
+        /// </summary>
+        /// <param name="userEmail">The user email.</param>
+        /// <param name="startDate">The rental start date.</param>
+        /// <param name="endDate">The rental end date.</param>
+        /// <param name="userHasActiveRental">A task indicating whether the user has an active rental.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task Rent(string userEmail, DateTime startDate, DateTime endDate, Task<bool> userHasActiveRental);
     }
 }
