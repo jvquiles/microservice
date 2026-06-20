@@ -47,7 +47,7 @@ namespace GtMotive.Estimate.Microservice.InfrastructureTests.Infrastructure
 
             services.Configure<MongoDbSettings>(options =>
             {
-                options.ConnectionString = "mongodb://localhost:27017";
+                options.ConnectionString = "mongodb://mongo:mongo@localhost:27017";
                 options.MongoDbDatabaseName = "TestDb";
             });
         }

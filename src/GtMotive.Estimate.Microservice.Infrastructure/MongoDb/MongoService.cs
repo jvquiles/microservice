@@ -10,7 +10,6 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
         public MongoService(IOptions<MongoDbSettings> options)
         {
             MongoClient = new MongoClient(options.Value.ConnectionString);
-
             BsonClassMaps.Register();
         }
 

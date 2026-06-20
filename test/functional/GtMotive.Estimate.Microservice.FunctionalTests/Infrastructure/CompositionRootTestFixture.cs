@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api;
 using GtMotive.Estimate.Microservice.Infrastructure;
+using GtMotive.Estimate.Microservice.Infrastructure.MongoDb.Settings;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,9 @@ using Xunit;
 
 namespace GtMotive.Estimate.Microservice.FunctionalTests.Infrastructure
 {
-    internal sealed class CompositionRootTestFixture : IDisposable, IAsyncLifetime
+#pragma warning disable CA1515 // Considere la posibilidad de hacer que los tipos públicos sean internos
+    public sealed class CompositionRootTestFixture : IDisposable, IAsyncLifetime
+#pragma warning restore CA1515 // Considere la posibilidad de hacer que los tipos públicos sean internos
     {
         private readonly ServiceProvider _serviceProvider;
 
@@ -94,6 +97,11 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.Infrastructure
             services.AddApiDependencies();
             services.AddLogging();
             services.AddBaseInfrastructure(true);
+            services.Configure<MongoDbSettings>(options =>
+            {
+                options.ConnectionString = "mongodb://mongo:mongo@localhost:27017";
+                options.MongoDbDatabaseName = "TestDb";
+            });
         }
     }
 }

@@ -4,18 +4,20 @@ using Xunit;
 namespace GtMotive.Estimate.Microservice.FunctionalTests.Infrastructure
 {
     [Collection(TestCollections.Functional)]
-    internal abstract class FunctionalTestBase(CompositionRootTestFixture fixture) : IAsyncLifetime
+#pragma warning disable CA1515 // Considere la posibilidad de hacer que los tipos públicos sean internos
+    public abstract class FunctionalTestBase(CompositionRootTestFixture fixture) : IAsyncLifetime
+#pragma warning restore CA1515 // Considere la posibilidad de hacer que los tipos públicos sean internos
     {
         public const int QueueWaitingTimeInMilliseconds = 1000;
 
         protected CompositionRootTestFixture Fixture { get; } = fixture;
 
-        public async Task InitializeAsync()
+        public virtual async Task InitializeAsync()
         {
             await Task.CompletedTask;
         }
 
-        public async Task DisposeAsync()
+        public virtual async Task DisposeAsync()
         {
             await Task.CompletedTask;
         }

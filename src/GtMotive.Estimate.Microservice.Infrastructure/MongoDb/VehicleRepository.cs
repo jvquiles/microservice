@@ -36,6 +36,12 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
         }
 
         /// <inheritdoc/>
+        public async Task DeleteAll()
+        {
+            await _vehicles.DeleteManyAsync(Builders<VehicleEntity>.Filter.Empty);
+        }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<IVehicle>> GetAll(bool? availableForRent = null)
         {
             var currentDate = DateTime.UtcNow;
