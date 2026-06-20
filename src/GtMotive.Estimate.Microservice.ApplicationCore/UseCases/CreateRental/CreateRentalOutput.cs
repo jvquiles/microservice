@@ -15,6 +15,11 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.CreateRental
         public VehicleId VehicleId { get; init; }
 
         /// <summary>
+        /// Gets the rental identifier.
+        /// </summary>
+        public Guid RentalId { get; init; }
+
+        /// <summary>
         /// Gets the user email.
         /// </summary>
         public string UserEmail { get; init; }

@@ -8,6 +8,11 @@ namespace GtMotive.Estimate.Microservice.Domain
     public sealed class RentalItem
     {
         /// <summary>
+        /// Gets the rental identifier.
+        /// </summary>
+        public Guid RentalId { get; init; }
+
+        /// <summary>
         /// Gets the user email.
         /// </summary>
         public string UserEmail { get; init; }
