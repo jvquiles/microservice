@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Domain.Interfaces;
 
@@ -31,9 +32,11 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.CreateRental
                 vehicleRepository.UserHasActiveRental(input.UserEmail, input.StartDate, input.EndDate));
             await vehicleRepository.Update(vehicle);
 
+            var rentalId = vehicle.Rentals.Last().RentalId;
             var output = new CreateRentalOutput
             {
                 VehicleId = vehicle.Id,
+                RentalId = rentalId,
                 UserEmail = input.UserEmail,
                 StartDate = input.StartDate,
                 EndDate = input.EndDate

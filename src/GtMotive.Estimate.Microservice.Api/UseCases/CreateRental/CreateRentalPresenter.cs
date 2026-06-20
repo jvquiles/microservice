@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases.CreateRental;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +21,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.CreateRental
             var response = new CreateRentalResponse
             {
                 VehicleId = output.VehicleId.ToGuid(),
+                RentalId = output.RentalId,
                 UserEmail = output.UserEmail,
                 StartDate = output.StartDate,
                 EndDate = output.EndDate

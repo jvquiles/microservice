@@ -85,10 +85,19 @@ namespace GtMotive.Estimate.Microservice.Domain
 
             _rentals.Add(new RentalItem
             {
+                RentalId = Guid.CreateVersion7(),
                 UserEmail = userEmail,
                 StartDate = startDate,
                 EndDate = endDate
             });
+        }
+
+        /// <inheritdoc/>
+        public override void FinishRental(Guid rentalId)
+        {
+            var rental = _rentals.FirstOrDefault(r => r.RentalId == rentalId)
+                ?? throw new DomainException($"Rental {rentalId} not found for {Id} vehicle.");
+            _rentals.Remove(rental);
         }
 
         private bool IsAvailable(DateTime startDate, DateTime endDate)

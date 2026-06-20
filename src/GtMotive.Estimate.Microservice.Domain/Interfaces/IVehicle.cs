@@ -53,5 +53,11 @@ namespace GtMotive.Estimate.Microservice.Domain.Interfaces
         /// <param name="userHasActiveRental">A task indicating whether the user has an active rental.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task Rent(string userEmail, DateTime startDate, DateTime endDate, Task<bool> userHasActiveRental);
+
+        /// <summary>
+        /// Finishes an active rental by its identifier.
+        /// </summary>
+        /// <param name="rentalId">The rental identifier.</param>
+        void FinishRental(Guid rentalId);
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.UseCases.CreateRental;
 using GtMotive.Estimate.Microservice.Api.UseCases.CreateVehicle;
+using GtMotive.Estimate.Microservice.Api.UseCases.FinishRental;
 using GtMotive.Estimate.Microservice.Api.UseCases.GetAllVehicles;
 using GtMotive.Estimate.Microservice.Api.UseCases.GetVehicle;
 using MediatR;
@@ -67,6 +68,25 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
             ArgumentNullException.ThrowIfNull(request);
             request.VehicleId = vehicleId;
             var presenter = await mediator.Send(request);
+            return presenter.ActionResult;
+        }
+
+        /// <summary>
+        /// Finishes an active rental by its identifier.
+        /// </summary>
+        /// <param name="vehicleId">The vehicle identifier.</param>
+        /// <param name="rentalId">The rental identifier.</param>
+        /// <returns>The finished rental.</returns>
+        [HttpPut("{vehicleId:Guid}/rentals/{rentalId:Guid}", Name = "FinishRental")]
+        public async Task<IActionResult> FinishRental(
+            [FromRoute] Guid vehicleId,
+            [FromRoute] Guid rentalId)
+        {
+            var presenter = await mediator.Send(new FinishRentalRequest
+            {
+                VehicleId = vehicleId,
+                RentalId = rentalId
+            });
             return presenter.ActionResult;
         }
     }

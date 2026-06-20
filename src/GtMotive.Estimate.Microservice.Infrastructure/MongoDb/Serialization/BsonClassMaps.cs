@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using GtMotive.Estimate.Microservice.Domain;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb.Serialization
 {
@@ -23,6 +25,8 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb.Serialization
                 return;
             }
 
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+
             BsonSerializer.RegisterSerializer(new VehicleIdSerializer());
             BsonSerializer.RegisterSerializer(new LicensePlateSerializer());
 
@@ -34,6 +38,7 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb.Serialization
 
             BsonClassMap.RegisterClassMap<RentalItem>(cm =>
             {
+                cm.MapMember(x => x.RentalId);
                 cm.AutoMap();
             });
 
