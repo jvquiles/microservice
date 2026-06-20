@@ -45,27 +45,27 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
         public async Task<IEnumerable<IVehicle>> GetAll(bool? availableForRent = null)
         {
             var currentDate = DateTime.UtcNow;
+            var limitYear = currentDate.Year - VehicleEntity.MaxVehicleAge;
 
-            FilterDefinition<VehicleEntity> filter;
-            if (availableForRent.HasValue)
+            if (!availableForRent.HasValue)
             {
-                var activeRentalFilter = Builders<VehicleEntity>.Filter.ElemMatch(
+                return await _vehicles.Find(_ => true).ToListAsync();
+            }
+
+            var notTooOldFilter = Builders<VehicleEntity>.Filter.Gte(v => v.Year, limitYear);
+
+            var notActiveRentalFilter = Builders<VehicleEntity>.Filter.Not(
+                Builders<VehicleEntity>.Filter.ElemMatch(
                     v => v.RentalsList,
                     Builders<RentalItem>.Filter.And(
                         Builders<RentalItem>.Filter.Lte(r => r.StartDate, currentDate),
-                        Builders<RentalItem>.Filter.Gte(r => r.EndDate, currentDate)));
+                        Builders<RentalItem>.Filter.Gte(r => r.EndDate, currentDate))));
 
-                filter = availableForRent.Value
-                    ? Builders<VehicleEntity>.Filter.Not(activeRentalFilter)
-                    : activeRentalFilter;
-            }
-            else
-            {
-                filter = Builders<VehicleEntity>.Filter.Empty;
-            }
+            var filter = Builders<VehicleEntity>.Filter.And(
+                notTooOldFilter,
+                notActiveRentalFilter);
 
-            var vehicles = await _vehicles.Find(filter).ToListAsync();
-            return vehicles;
+            return await _vehicles.Find(filter).ToListAsync();
         }
 
         /// <inheritdoc/>

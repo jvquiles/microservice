@@ -40,7 +40,18 @@ namespace GtMotive.Estimate.Microservice.Domain
             Model = model;
             Year = year;
             DailyRate = dailyRate;
+
+            if (IsTooOld())
+            {
+                throw new DomainException($"Vehicle year {year} is too old. Vehicles older than 5 years cannot be used.");
+            }
         }
+
+        /// <summary>
+        /// Gets the maximum allowed vehicle age in years.
+        /// </summary>
+        /// <returns>The maximum allowed vehicle age in years.</returns>
+        public static int MaxVehicleAge => 5;
 
         /// <inheritdoc/>
         public override IReadOnlyCollection<RentalItem> Rentals => _rentals;
@@ -98,6 +109,12 @@ namespace GtMotive.Estimate.Microservice.Domain
             var rental = _rentals.FirstOrDefault(r => r.RentalId == rentalId)
                 ?? throw new DomainException($"Rental {rentalId} not found for {Id} vehicle.");
             _rentals.Remove(rental);
+        }
+
+        /// <inheritdoc/>
+        public override bool IsTooOld()
+        {
+            return Year < DateTime.UtcNow.Year - MaxVehicleAge;
         }
 
         private bool IsAvailable(DateTime startDate, DateTime endDate)

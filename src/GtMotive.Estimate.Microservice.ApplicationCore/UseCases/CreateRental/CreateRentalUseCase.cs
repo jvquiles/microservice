@@ -25,6 +25,12 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.CreateRental
                 return;
             }
 
+            if (vehicle.IsTooOld())
+            {
+                outputPort.BusinessRuleViolationHandle($"Vehicle {input.VehicleId} is too old and cannot be rented.");
+                return;
+            }
+
             await vehicle.Rent(
                 input.UserEmail,
                 input.StartDate,

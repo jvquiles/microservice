@@ -59,5 +59,11 @@ namespace GtMotive.Estimate.Microservice.Domain.Interfaces
         /// </summary>
         /// <param name="rentalId">The rental identifier.</param>
         void FinishRental(Guid rentalId);
+
+        /// <summary>
+        /// Determines whether the vehicle is too old to be rented or listed.
+        /// </summary>
+        /// <returns>True if the vehicle is too old, false otherwise.</returns>
+        bool IsTooOld();
     }
 }
