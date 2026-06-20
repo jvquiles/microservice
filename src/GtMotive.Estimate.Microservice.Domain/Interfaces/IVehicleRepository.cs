@@ -45,5 +45,11 @@ namespace GtMotive.Estimate.Microservice.Domain.Interfaces
         /// <param name="endDate">The end date.</param>
         /// <returns>True if an overlapping rental exists.</returns>
         Task<bool> UserHasActiveRental(string email, DateTime startDate, DateTime endDate);
+
+        /// <summary>
+        /// Deletes all vehicles.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task DeleteAll();
     }
 }
